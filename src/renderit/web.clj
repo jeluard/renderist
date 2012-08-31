@@ -1,29 +1,38 @@
 (ns renderit.web
+    (:use renderit.gist)
+    (:use renderit.plantuml)
     (:use ring.adapter.jetty)
     (:use compojure.core) 
-    (:require [compojure.route :as route])
-    (:require [compojure.handler :as handler]
+    (:require [compojure.route :as route]
+              [clojure.java.io :as io]
               [ring.util.response :as resp])
     (:use ring.util.json-response))
 
-(defn handler [request]
-    {:status 200
-        :headers {"Content-Type" "text/html"}
-        :body "Hello World"})
-
 (defroutes api-routes
-  (GET "/:id/:name.:format" [id name format] (json-response {:id id :name name :format format})))
+  (GET "/:id/:name.:extension" [id name extension :as {headers :headers}] 
+;;    (println (get headers "cache-control")) 
+    (if-not (or (= extension "png") (= extension "svg")) 
+      (-> (resp/response (str "Unknow extension " extension))
+          (resp/status 415))
+      (let [gist (get-gist id)]
+        (if (= (:status gist) 404) (resp/not-found (format "Non existing gist %s" id))
+          (let [candidates (matching-files(list-files gist) name)]
+            (if (empty? candidates) (resp/not-found (format "Cannot find matching file for %s" name))
+              (if (not= (count candidates) 1) (resp/not-found (format "Too many candidates: %s" (apply str candidates)))
+                (if-let [file (extract-file gist (first candidates))]
+                  (-> 
+                    (resp/response (render file extension))
+                    (resp/content-type (if (= extension "png") "image/png" "image/svg+xml")))
+                  (resp/not-found (format "No file %s in gist %s" name id))
+      )))))))))
 
 (defroutes all-routes
   (context "/api" [] api-routes)
   (GET "/" [] (resp/resource-response "index.html" {:root "public"}))
- ;; (GET "/" [] (resp/redirect "/index.html"))
   (route/resources "/")
-  (route/not-found "Page not found"))
-
-(def application-routes
-  all-routes)
+  (route/not-found (slurp (io/resource "404.html") :encoding "UTF-8")))
 
 (defn -main [port]
-  (run-jetty application-routes {:port (Integer. port)})
+  (System/setProperty "java.awt.headless" "true")
+  (run-jetty all-routes {:port (Integer. port)})
 )
