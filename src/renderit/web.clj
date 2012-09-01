@@ -3,10 +3,17 @@
     (:use renderit.plantuml)
     (:use ring.adapter.jetty)
     (:use compojure.core) 
+    (:use net.cgrand.enlive-html) 
     (:require [compojure.route :as route]
               [clojure.java.io :as io]
               [ring.util.response :as resp])
     (:use ring.util.json-response))
+
+(deftemplate t1 "public/index.html" []
+  [:p]   (content "Enlive!!!"))
+
+(defn enlive-template []
+    (apply str(t1)))
 
 (defroutes api-routes
   (GET "/:id/:name.:extension" [id name extension :as {headers :headers}] 
@@ -28,9 +35,9 @@
 
 (defroutes all-routes
   (context "/api" [] api-routes)
-  (GET "/" [] (resp/resource-response "index.html" {:root "public"}))
+  (GET "/" [] (enlive-template))
   (route/resources "/")
-  (route/not-found (slurp (io/resource "404.html") :encoding "UTF-8")))
+  (route/not-found (slurp (io/resource "public/404.html") :encoding "UTF-8")))
 
 (defn -main [port]
   (System/setProperty "java.awt.headless" "true")
