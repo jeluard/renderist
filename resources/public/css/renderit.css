@@ -1,0 +1,80 @@
+body {
+  width: 960px;
+  margin: 1em auto 4em auto;
+}
+
+section h1 > a:before {
+  content: '§';
+  position: absolute;
+  padding: 0 .2em;
+  margin-left: -1em;
+  border-radius: .2em;
+  color: silver;
+  text-shadow: 0 1px white;
+}
+
+aside {
+  font-size: small;
+  left: 780px;
+  position: absolute;
+  text-align: right;
+  width: 180px;
+}
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+}
+
+#id {
+  background-color: #F5F2F0;
+}
+
+pre#readme {
+  background-color: #ffffff;
+  border: none;
+}
+
+#date {
+  margin-top: -30px;
+}
+
+.diagram {
+  margin-top: 20px;
+}
+
+.image {
+  float: left;
+}
+
+.source {
+  float: left;
+  margin-left: 50px;
+  background-color: #F5F2F0;
+  border-width: 1px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-style: scrollbar;
+  max-height: 200px;
+}
+
+pre.snippet {
+  clear: both;
+  padding-top: 30px;
+  background: white;
+  text-align: center;
+  border: none;
+}
+
+/* Display scrollbar in webkit/OSX Lion+ */
+
+::-webkit-scrollbar {
+    -webkit-appearance: inherit;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
