@@ -10,6 +10,7 @@
                  [tentacles "0.2.0-beta1"]
                  [enlive "1.0.1"]]
   :profiles {
+    :dev {:dependencies [[clj-ns-browser "1.3.0"]]}
     :production {
       :mirrors {
         #"central|clojars" "http://s3pository.herokuapp.com/clojure"
