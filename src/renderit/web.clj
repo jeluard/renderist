@@ -9,11 +9,25 @@
               [ring.util.response :as resp])
     (:use ring.util.json-response))
 
-(deftemplate t1 "public/index.html" []
-  [:p]   (content "Enlive!!!"))
+(comment (deftemplate index "public/index.html"
+  [latest]
+  [:div#content] (content "Enlive!!!")
+  [:ul#items :li] (clone-for [item latest]
+    (content item))))
 
-(defn enlive-template []
-    (apply str(t1)))
+(deftemplate index "public/index.html" [string]
+  [:div#content] (content string))
+
+(defsnippet diagram "public/templates/diagram.html" [:body :> any-node] [id name]
+  [:a (attr-has :href "url")] (content id)
+  [:div.author :span] (content name)
+  [:img] (content (str "data:image/png;base64," name)))
+
+(defn root-html [latest]
+  (apply str(index latest)))
+
+(defn diagram-html [id]
+  (apply str(index (diagram id "jeluard"))))
 
 (defroutes api-routes
   (GET "/:id/:name.:extension" [id name extension :as {headers :headers}] 
@@ -33,9 +47,13 @@
                   (resp/not-found (format "No file %s in gist %s" name id))
       )))))))))
 
+(def latest [{:name "Name 1" :url "http://gists.github.com/12334"}
+             {:name "Name 2" :url "http://gists.github.com/123345"}])
+
 (defroutes all-routes
   (context "/api" [] api-routes)
-  (GET "/" [] (enlive-template))
+  (GET "/" [] (root-html latest))
+  (GET "/:id" [id] (diagram-html id))
   (route/resources "/")
   (route/not-found (slurp (io/resource "public/404.html") :encoding "UTF-8")))
 
