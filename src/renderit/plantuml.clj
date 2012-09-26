@@ -19,4 +19,7 @@
   (let [reader (SourceStringReader. source)
         outputStream (ByteArrayOutputStream.)]
     (.generateImage reader outputStream (FileFormatOption. (type-from-extension extension)))
-    (java.io.ByteArrayInputStream. (.toByteArray outputStream))))
+    (.toByteArray outputStream)))
+
+(defn render-stream [source extension]
+  (java.io.ByteArrayInputStream. (render source extension)))

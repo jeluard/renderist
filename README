@@ -27,3 +27,8 @@ http://en.wikipedia.org/wiki/RDFa
 ## Deployment on heroku
 
 heroku config:add BUILDPACK_URL=https://github.com/stigkj/heroku-buildpack-graphviz/ -a renderit
+
+### Splunk
+
+https://www.splunkstorm.com/pricing
+http://docs.splunk.com/Documentation/Storm/latest/User/HowtosenddatafromHeroku

@@ -8,6 +8,10 @@
 ;;https://github.com/dakrone/cheshire
 ;;https://github.com/mmcgrana/clj-json
 
+;;Github uses lowercase/hyphen string as file id. HTML5 is less restrictive: http://www.w3.org/TR/html5/global-attributes.html#the-id-attribute
+(defn file-name-to-file-id [name]
+  (str name))
+
 (defn list-files [gist]
   "List files part of this gist."
   (map #(name %) (keys (:files gist))))
@@ -26,8 +30,10 @@
 
 (defn get-gist [id]
   ""
-  (specific-gist id))
+  (let [gist (specific-gist id)]
+    (if (not= 404 (:status gist))
+      gist nil)))
 
-(defn extract-file [gist name] 
+(defn extract-file [gist name]
   ""
-  (:content ((keyword name) (:files gist))))
+  (get-in gist [:files (keyword name) :content]))

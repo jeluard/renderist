@@ -7,6 +7,8 @@
                  [compojure "1.1.1"]
                  [ring-json-response "0.2.0"]
                  [net.sourceforge.plantuml/plantuml "7933"]
+                 [markdown-clj "0.9.8"]
+                 [clj-time "0.4.4"]
                  [tentacles "0.2.0-beta1"]
                  [enlive "1.0.1"]]
   :profiles {
