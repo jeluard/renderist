@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+@import url("/style.css?20120730");
+
+.gist {
+  border: solid 1px #ccc;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: inline-block;
+  float: left;
+  height: 80px;
+  line-height: normal;
+  margin: 0 10px 10px 0;
+  padding: 10px;
+  position: relative;
+  width: 230px;
+}
+
+.gist:nth-child(4n) {
+  margin-right: 0;
+}
+
+.gist:hover {
+  background: #eee;
+}
+
+.date {
+  color: #636363;
+  display: block;
+  font-size: smaller;
+}
+
+a.gist:hover {
+  text-decoration: none;
+}
+
+a.gist:hover .description {
+  text-decoration: underline;
+}
+
+</style>
+
+<h1 style="margin-top:.8em;"><span class="user-login"></span>’s blocks</h1>
+
+<div class="gists">Loading; one moment please…</div>
+<br clear="both">
+
+<footer>
+  about <a href="/">renderit</a>
+</footer>
+
+<script src="http://d3js.org/d3.v2.min.js?2.9.6"></script>
+<script>
+
+var user = location.pathname.substring(1);
+document.title = "gists - " + user;
+d3.selectAll(".user-login").text(user);
+
+d3.json("https://api.github.com/users/" + encodeURIComponent(user) + "/gists?per_page=100", function(gists) {
+  var formatDate = d3.time.format("%B %d, %Y"),
+      parseDate = d3.time.format.iso.parse;
+
+  var gist = d3.select(".gists").text(null).selectAll(".gist")
+      .data(gists.filter(function(d) { return "Diagrams.md" in d.files; }))
+    .enter().append("a")
+      .attr("class", "gist")
+      .attr("href", function(d) { return "/" + d.id; });
+
+  gist.append("span")
+      .attr("class", "description")
+      .text(function(d) { return d.description || d.id; });
+
+  gist.append("span")
+      .attr("class", "date")
+      .text(function(d) { return formatDate(parseDate(d.updated_at)); });
+});
+
+</script>
