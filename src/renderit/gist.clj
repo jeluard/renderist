@@ -1,6 +1,6 @@
 (ns renderit.gist
   (:use [tentacles.gists :only [specific-gist]]
-        [clojure.string :only [split]]))
+        [clojure.string :only [lower-case replace split]]))
 ;;http://developer.github.com/v3/gists/
 ;;http://developer.github.com/v3/#rate-limiting
 ;;http://bl.ocks.org/1353700
@@ -11,6 +11,9 @@
 ;;Github uses lowercase/hyphen string as file id. HTML5 is less restrictive: http://www.w3.org/TR/html5/global-attributes.html#the-id-attribute
 (defn file-name-to-file-id [name]
   (str name))
+
+(defn camel-case-to-hyphen [string]
+  (replace string #"[A-Z]" #(str \- (lower-case %))))
 
 (defn list-files [gist]
   "List files part of this gist."

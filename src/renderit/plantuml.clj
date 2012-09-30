@@ -1,8 +1,3 @@
-;;http://plantuml.sourceforge.net/jdot/jdot.html
-;;http://plantuml.sourceforge.net/salt.html
-;;http://ditaa.org/ditaa/
-;;http://ditaa.sourceforge.net/#download
-;;http://plantuml.sourceforge.net/ditaa.html
 (ns renderit.plantuml
   (:import net.sourceforge.plantuml.SourceStringReader)
   (:import net.sourceforge.plantuml.FileFormat)

@@ -1,28 +1,19 @@
 (ns renderit.web
-    (:use renderit.gist)
-    (:use renderit.plantuml)
-    (:use ring.adapter.jetty)
-    (:use compojure.core)
-    (:use net.cgrand.enlive-html)
-    (:use [markdown :only (md-to-html-string)]
-          [clj-time.format :only (parse unparse formatter with-locale)]
-          [ring.util.codec :only (base64-encode)])
-    (:require [compojure.route :as route]
-              [clojure.java.io :as io]
-              [ring.util.response :as resp])
-    (:use ring.util.json-response)
+    (:use [renderit.gist]
+          [renderit.plantuml]
+          [ring.server.standalone]
+          [ring.util.codec :only (base64-encode)]
+          [ring.util.response :only (content-type not-found response status)]
+          [compojure.core]
+          [net.cgrand.enlive-html]
+          [clojure.java.io :only (resource)]
+          [markdown :only (md-to-html-string)]
+          [clj-time.format :only (parse unparse formatter with-locale)])
+    (:require [compojure.route :as route])
     (:import java.util.Locale))
 
 (deftemplate index "public/index.html" [string]
   [:div#content] (content string))
-
-(defsnippet diagram-snippet "public/templates/diagram.html" [:section] [id {:keys [file source]} data]
-  [:section#id] (set-attr :id file)
-  [:a] (content file)
-  [:a] (set-attr :href (str "https://gist.github.com/" id "#file_" (file-name-to-file-id file)))
-  [:img] (set-attr :src (str "data:image/png;base64," data))
-  [:pre.source] (content source)
-  [:code] (content (str "&lt;img alt=\"" file "\" src=\"http://renderit.herokuapp.com/api/" id "/" file ".png")))
 
 (def format (with-locale (formatter "MMM dd, yyyy") Locale/US));default to UTC time zone
 
@@ -47,7 +38,10 @@
   (apply str(index latest)))
 
 (def page-404
-  (slurp (io/resource "public/404.html") :encoding "UTF-8"))
+  (slurp (resource "public/404.html") :encoding "UTF-8"))
+
+(def page-author
+  (slurp (resource "public/author.html") :encoding "UTF-8"))
 
 (defn gist-page [id]
   (if-let [gist (get-gist id)]
@@ -56,20 +50,19 @@
 
 (defroutes api-routes
   (GET "/:id/:name.:extension" [id name extension :as {headers :headers}] 
-;;    (println (get headers "cache-control")) 
     (if-not (or (= extension "png") (= extension "svg")) 
-      (-> (resp/response (str "Unknow extension " extension))
-          (resp/status 415))
+      (-> (response (str "Unknow extension " extension))
+          (status 415))
       (let [gist (get-gist id)]
-        (if (= (:status gist) 404) (resp/not-found (format "Non existing gist %s" id))
+        (if (= (:status gist) 404) (not-found (format "Non existing gist %s" id))
           (let [candidates (matching-files(list-files gist) name)]
-            (if (empty? candidates) (resp/not-found (format "Cannot find matching file for %s" name))
-              (if (not= (count candidates) 1) (resp/not-found (format "Too many candidates: %s" (apply str candidates)))
+            (if (empty? candidates) (not-found (format "Cannot find matching file for %s" name))
+              (if (not= (count candidates) 1) (not-found (format "Too many candidates: %s" (apply str candidates)))
                 (if-let [file (extract-file gist (first candidates))]
                   (->
-                    (resp/response (render-stream file extension))
-                    (resp/content-type (if (= extension "png") "image/png" "image/svg+xml")))
-                  (resp/not-found (format "No file %s in gist %s" name id))
+                    (response (render-stream file extension))
+                    (content-type (if (= extension "png") "image/png" "image/svg+xml")))
+                  (not-found (format "No file %s in gist %s" name id))
       )))))))))
 
 (def latest [{:name "Name 1" :url "http://gists.github.com/12334"}
@@ -80,9 +73,9 @@
   (GET "/" [] (root-html latest))
   (GET "/:id" [id] (gist-page id))
   (route/resources "/")
-  (route/not-found (slurp (io/resource "public/404.html") :encoding "UTF-8")))
+  (route/not-found page-404))
 
 (defn -main [port]
   (System/setProperty "java.awt.headless" "true")
-  (run-jetty all-routes {:port (Integer. port)})
+  (serve all-routes {:port (Integer. port)})
 )
