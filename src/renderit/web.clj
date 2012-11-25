@@ -73,6 +73,6 @@
   (r/resources "/")
   (r/not-found page-404))
 
-(defn -main [port]
+(defn -main []
   (System/setProperty "java.awt.headless" "true")
-  (serve all-routes {:port (Integer. port)}))
+  (serve all-routes))
