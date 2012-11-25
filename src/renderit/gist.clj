@@ -1,6 +1,6 @@
 (ns renderit.gist
-  (:use [tentacles.gists :only [specific-gist]]
-        [clojure.string :only [lower-case replace split]]))
+  (:require [clojure.string :as str]
+            [tentacles.gists :as t]))
 ;;http://developer.github.com/v3/gists/
 ;;http://developer.github.com/v3/#rate-limiting
 ;;http://bl.ocks.org/1353700
@@ -13,7 +13,7 @@
   (str name))
 
 (defn camel-case-to-hyphen [string]
-  (replace string #"[A-Z]" #(str \- (lower-case %))))
+  (str/replace string #"[A-Z]" #(str \- (str/lower-case %))))
 
 (defn list-files [gist]
   "List files part of this gist."
@@ -21,7 +21,7 @@
 
 (defn chop-extension [file]
   ""
-  (first (split file #"\.")))
+  (first (str/split file #"\.")))
 
 (defn matches? [file candidate]
   ""
@@ -33,7 +33,7 @@
 
 (defn get-gist [id]
   ""
-  (let [gist (specific-gist id)]
+  (let [gist (t/specific-gist id)]
     (if (not= 404 (:status gist))
       gist nil)))
 

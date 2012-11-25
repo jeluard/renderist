@@ -1,7 +1,6 @@
 (ns renderit.plantuml
-  (:import (net.sourceforge.plantuml FileFormat FileFormatOption SourceStringReader))
-  (import java.io.ByteArrayOutputStream)
-  (:use clojure.java.io))
+  (:import [java.io ByteArrayInputStream ByteArrayOutputStream]
+           [net.sourceforge.plantuml FileFormat FileFormatOption SourceStringReader]))
 
 (defn type-from-extension [extension]
   "plantuml FileFormat from file extension"
@@ -21,4 +20,4 @@
       (.toByteArray outputStream))))
 
 (defn render-stream [source extension]
-  (java.io.ByteArrayInputStream. (render source extension)))
+  (ByteArrayInputStream. (render source extension)))
