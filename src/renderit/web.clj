@@ -12,30 +12,12 @@
               [ring.util.codec :as codec])
     (:import java.util.Locale))
 
-(e/deftemplate index "public/index.html" [string]
-  [:div#content] (e/content string))
-
 (def formatter (f/with-locale (f/formatter "MMM dd, yyyy") Locale/US)) ;default to UTC time zone
 
-(comment defsnippet gist "public/templates/diagram.html" [:section]
-  []
-  [:#id] (set-attr :id (:filename (val file))))
+(e/deftemplate blank "public/blank.html" [string]
+  [:div#content] (e/content string))
 
-(comment defsnippet footer "footer.html" [:.footer]
-  [message]
-  [:.footer] (content message))
-;;(footer "hello") => ({:tag :div, :attrs {:class "footer"}, :content ("hello")})
-
-(comment deftemplate friends-list "friends.html"
-  [username friends]
-  [:.usrname] (content username)
-  [:ul.friends :li] (clone-for [f friends]
-                      (do-> (content f))
-                            (add-class "test"))
-  [:body] (append (footer (str "Goodbye, " username))))
-;;use directly as ring :body
-
-(e/defsnippet gist-snippet "public/templates/diagram.html" 
+(e/defsnippet gist-snippet "public/templates/diagram.html"
   [:body :> e/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
   [:span (e/nth-child 1)] (e/set-attr :href (str "/" author))
   [:span (e/nth-child 1)] (e/content author)
@@ -56,14 +38,12 @@
   (slurp (io/resource (str "public/" page)) :encoding "UTF-8"))
 
 (def page-index (load-page "index.html"))
-
 (def page-author (load-page "author.html"))
-
 (def page-404 (load-page "404.html"))
 
 (defn page-gist [id]
   (if-let [gist (g/get-gist id)]
-    (apply str (index (gist-snippet gist (g/extract-file gist "Readme.md") (:files gist))))
+    (apply str (blank (gist-snippet gist (g/extract-file gist "Readme.md") (:files gist))))
     page-404))
 
 (c/defroutes all-routes
