@@ -2,15 +2,14 @@
     (:use [renderit.gist]
           [renderit.plantuml]
           [ring.server.standalone]
-          [ring.util.codec :only (base64-encode)]
-          [ring.util.response :only (content-type not-found response status)]
-          [compojure.core]
           [net.cgrand.enlive-html])
     (:require [clj-time.format :as f]
               [clojure.java.io :as io]
+              [compojure.core :as comp]
               [compojure.route :as route]
               [markdown :as md]
-              [renderit.api :as api])
+              [renderit.api :as api]
+              [ring.util.codec :as codec])
     (:import java.util.Locale))
 
 (deftemplate index "public/index.html" [string]
@@ -49,7 +48,7 @@
                [:section#id] (set-attr :id (:filename (val file)))
                [:h2 :a] (content (:filename (val file)))
                [:h2 :a] (set-attr :href (str "https://gist.github.com/" id "#file_" (file-name-to-file-id (:filename (val file)))))
-               [:div.diagram :img] (set-attr :src (str "data:image/png;base64," (base64-encode (render (:content (val file)) "png"))))
+               [:div.diagram :img] (set-attr :src (str "data:image/png;base64," (codec/base64-encode (render (:content (val file)) "png"))))
                [:pre.source] (content (:content (val file)))
                [:code] (content (str "&lt;img alt=\"" (:filename (val file)) "\" src=\"http://renderit.herokuapp.com/api/" id "/" (:filename (val file)) ".png")))
                )
@@ -70,9 +69,9 @@
     page-404))
 
 (defroutes all-routes
-  (context "/api" [] api/routes)
-  (GET "/" [] page-index)
-  (GET "/:id" [id] (page-gist id))
+  (comp/context "/api" [] api/routes)
+  (comp/GET "/" [] page-index)
+  (comp/GET "/:id" [id] (page-gist id))
   (route/resources "/")
   (route/not-found page-404))
 
