@@ -75,4 +75,4 @@
 
 (defn -main []
   (System/setProperty "java.awt.headless" "true")
-  (serve all-routes))
+  (serve all-routes {:open-browser? false}))
