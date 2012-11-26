@@ -25,9 +25,14 @@
   [:pre.source] (h/content filecontent)
   [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/api/" id "/" filename ".png\" />")))
 
+(def description-file "Diagrams.md")
+
+(defn valid? [filename]
+  (not= filename description-file))
+
 (h/defsnippet gist-snippet "public/templates/diagram.html" [:body :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
   [:span (h/nth-child 1)] (h/do->
-                            (h/set-attr :href (str "/" author))
+                            (h/set-attr :href (str "/author/" author))
                             (h/content author))
   [:span (h/nth-child 2)] (h/do->
                             (h/set-attr :href (str "https://gist.github.com/" id))
@@ -35,10 +40,11 @@
   [:h1] (h/content description)
   [:aside#date] (h/content (f/unparse formatter (f/parse date)))
   [:pre#readme] (h/html-content (md/md-to-html-string readme))
-  [:section] (h/clone-for [file files]
-               (h/content (let [filename (:filename (val file))
-                                filecontent (:content (val file))]
-                 (file-snippet id filename filecontent)))))
+  [:section] (h/clone-for [file files
+                           :let [filename (:filename (val file))
+                                 filecontent (:content (val file))]
+                           :when (valid? filename)]
+               (h/content (file-snippet id filename filecontent))))
 
 (defn load-page [page]
   (slurp (io/resource (str "public/" page)) :encoding "UTF-8"))
@@ -49,7 +55,7 @@
 
 (defn page-gist [id]
   (if-let [gist (g/get-gist id)]
-    (blank (gist-snippet gist (g/extract-file gist "Readme.md") (:files gist)))
+    (blank (gist-snippet gist (g/extract-file gist description-file) (:files gist)))
     page-404))
 
 (c/defroutes all-routes
