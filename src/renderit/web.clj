@@ -33,7 +33,7 @@
                [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id (:filename (val file)))))
                [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render (:content (val file)) "png"))))
                [:pre.source] (h/content (:content (val file)))
-               [:code] (h/content (str "&lt;img alt=\"" (:filename (val file)) "\" src=\"http://renderit.herokuapp.com/api/" id "/" (:filename (val file)) ".png"))))
+               [:code] (h/content (str "<img alt=\"" (:filename (val file)) "\" src=\"http://renderit.herokuapp.com/api/" id "/" (:filename (val file)) ".png\" />"))))
 
 (defn load-page [page]
   (slurp (io/resource (str "public/" page)) :encoding "UTF-8"))
