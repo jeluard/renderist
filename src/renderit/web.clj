@@ -44,7 +44,7 @@
 
 (defn page-gist [id]
   (if-let [gist (g/get-gist id)]
-    (apply str (blank (gist-snippet gist (g/extract-file gist "Readme.md") (:files gist))))
+    (blank (gist-snippet gist (g/extract-file gist "Readme.md") (:files gist)))
     page-404))
 
 (c/defroutes all-routes
