@@ -30,7 +30,7 @@
 (defn valid? [filename]
   (not= filename description-file))
 
-(h/defsnippet gist-snippet "public/templates/diagram.html" [:body :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
+(h/defsnippet gist-snippet "public/templates/diagram.html" [:#content :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
   [:span (h/nth-child 1)] (h/do->
                             (h/set-attr :href (str "/author/" author))
                             (h/content author))
