@@ -5,7 +5,7 @@
               [compojure.core :as c]
               [compojure.route :as r]
               [markdown :as md]
-              [net.cgrand.enlive-html :as e]
+              [net.cgrand.enlive-html :as h]
               [renderit.api :as a]
               [renderit.gist :as g]
               [renderit.plantuml :as p]
@@ -14,26 +14,26 @@
 
 (def formatter (f/with-locale (f/formatter "MMM dd, yyyy") Locale/US)) ;default to UTC time zone
 
-(e/deftemplate blank "public/blank.html" [string]
-  [:div#content] (e/content string))
+(h/deftemplate blank "public/blank.html" [string]
+  [:div#content] (h/content string))
 
-(e/defsnippet gist-snippet "public/templates/diagram.html" [:body :> e/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
-  [:span (e/nth-child 1)] (e/do->
-                            (e/set-attr :href (str "/" author))
-                            (e/content author))
-  [:span (e/nth-child 2)] (e/do->
-                            (e/set-attr :href (str "https://gist.github.com/" id))
-                            (e/content (str "#" id)))
-  [:h1] (e/content description)
-  [:aside#date] (e/content (f/unparse formatter (f/parse date)))
-  [:pre#readme] (e/html-content (md/md-to-html-string readme))
-  [:section] (e/clone-for [file files]
-               [:section#id] (e/set-attr :id (:filename (val file)))
-               [:h2 :a] (e/content (:filename (val file)))
-               [:h2 :a] (e/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id (:filename (val file)))))
-               [:div.diagram :img] (e/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render (:content (val file)) "png"))))
-               [:pre.source] (e/content (:content (val file)))
-               [:code] (e/content (str "&lt;img alt=\"" (:filename (val file)) "\" src=\"http://renderit.herokuapp.com/api/" id "/" (:filename (val file)) ".png"))))
+(h/defsnippet gist-snippet "public/templates/diagram.html" [:body :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
+  [:span (h/nth-child 1)] (h/do->
+                            (h/set-attr :href (str "/" author))
+                            (h/content author))
+  [:span (h/nth-child 2)] (h/do->
+                            (h/set-attr :href (str "https://gist.github.com/" id))
+                            (h/content (str "#" id)))
+  [:h1] (h/content description)
+  [:aside#date] (h/content (f/unparse formatter (f/parse date)))
+  [:pre#readme] (h/html-content (md/md-to-html-string readme))
+  [:section] (h/clone-for [file files]
+               [:section#id] (h/set-attr :id (:filename (val file)))
+               [:h2 :a] (h/content (:filename (val file)))
+               [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id (:filename (val file)))))
+               [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render (:content (val file)) "png"))))
+               [:pre.source] (h/content (:content (val file)))
+               [:code] (h/content (str "&lt;img alt=\"" (:filename (val file)) "\" src=\"http://renderit.herokuapp.com/api/" id "/" (:filename (val file)) ".png"))))
 
 (defn load-page [page]
   (slurp (io/resource (str "public/" page)) :encoding "UTF-8"))
