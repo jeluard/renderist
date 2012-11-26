@@ -17,8 +17,8 @@
 (h/deftemplate blank "public/blank.html" [snippet]
   [:div#content] (h/content snippet))
 
-(h/defsnippet file-snippet "public/templates/diagram.html" [:section] [id filename filecontent]
-  [:section#id] (h/set-attr :id filename)
+(h/defsnippet file-snippet "public/templates/diagram.html" [:section :> h/any-node] [id filename filecontent]
+  [:#id] (h/set-attr :id filename)
   [:h2 :a] (h/content filename)
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id filename)))
   [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render filecontent "png"))))
