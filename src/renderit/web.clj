@@ -17,6 +17,14 @@
 (h/deftemplate blank "public/blank.html" [snippet]
   [:div#content] (h/content snippet))
 
+(h/defsnippet file-snippet "public/templates/diagram.html" [:section] [id filename filecontent]
+  [:section#id] (h/set-attr :id filename)
+  [:h2 :a] (h/content filename)
+  [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id filename)))
+  [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render filecontent "png"))))
+  [:pre.source] (h/content filecontent)
+  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/api/" id "/" filename ".png\" />")))
+
 (h/defsnippet gist-snippet "public/templates/diagram.html" [:body :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
   [:span (h/nth-child 1)] (h/do->
                             (h/set-attr :href (str "/" author))
@@ -28,12 +36,9 @@
   [:aside#date] (h/content (f/unparse formatter (f/parse date)))
   [:pre#readme] (h/html-content (md/md-to-html-string readme))
   [:section] (h/clone-for [file files]
-               [:section#id] (h/set-attr :id (:filename (val file)))
-               [:h2 :a] (h/content (:filename (val file)))
-               [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id (:filename (val file)))))
-               [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render (:content (val file)) "png"))))
-               [:pre.source] (h/content (:content (val file)))
-               [:code] (h/content (str "<img alt=\"" (:filename (val file)) "\" src=\"http://renderit.herokuapp.com/api/" id "/" (:filename (val file)) ".png\" />"))))
+               (h/content (let [filename (:filename (val file))
+                                filecontent (:content (val file))]
+                 (file-snippet id filename filecontent)))))
 
 (defn load-page [page]
   (slurp (io/resource (str "public/" page)) :encoding "UTF-8"))
