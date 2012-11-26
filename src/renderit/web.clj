@@ -14,8 +14,8 @@
 
 (def formatter (f/with-locale (f/formatter "MMM dd, yyyy") Locale/US)) ;default to UTC time zone
 
-(h/deftemplate blank "public/blank.html" [string]
-  [:div#content] (h/content string))
+(h/deftemplate blank "public/blank.html" [snippet]
+  [:div#content] (h/content snippet))
 
 (h/defsnippet gist-snippet "public/templates/diagram.html" [:body :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
   [:span (h/nth-child 1)] (h/do->
