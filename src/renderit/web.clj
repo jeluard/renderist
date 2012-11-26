@@ -17,12 +17,13 @@
 (e/deftemplate blank "public/blank.html" [string]
   [:div#content] (e/content string))
 
-(e/defsnippet gist-snippet "public/templates/diagram.html"
-  [:body :> e/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
-  [:span (e/nth-child 1)] (e/set-attr :href (str "/" author))
-  [:span (e/nth-child 1)] (e/content author)
-  [:span (e/nth-child 2)] (e/set-attr :href (str "https://gist.github.com/" id))
-  [:span (e/nth-child 2)] (e/content (str "#" id))
+(e/defsnippet gist-snippet "public/templates/diagram.html" [:body :> e/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
+  [:span (e/nth-child 1)] (e/do->
+                            (e/set-attr :href (str "/" author))
+                            (e/content author))
+  [:span (e/nth-child 2)] (e/do->
+                            (e/set-attr :href (str "https://gist.github.com/" id))
+                            (e/content (str "#" id)))
   [:h1] (e/content description)
   [:aside#date] (e/content (f/unparse formatter (f/parse date)))
   [:pre#readme] (e/html-content (md/md-to-html-string readme))
@@ -50,6 +51,7 @@
   (c/context "/api" [] a/routes)
   (c/GET "/" [] page-index)
   (c/GET "/:id" [id] (page-gist id))
+  (c/GET "/author/:id" [id] page-author)
   (r/resources "/")
   (r/not-found page-404))
 
