@@ -6,7 +6,7 @@
                  [ring-server "0.2.5"]
                  [compojure "1.1.1"]
                  [ring-json-response "0.2.0"]
-                 [net.sourceforge.plantuml/plantuml "7933"]
+                 [net.sourceforge.plantuml/plantuml "7941"]
                  [markdown-clj "0.9.8"]
                  [clj-time "0.4.4"]
                  [tentacles "0.2.0-beta1"]
