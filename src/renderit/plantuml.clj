@@ -18,6 +18,3 @@
     (with-open [outputStream (ByteArrayOutputStream.)]
       (.generateImage reader outputStream (FileFormatOption. (type-from-extension extension)))
       (.toByteArray outputStream))))
-
-(defn render-stream [source extension]
-  (ByteArrayInputStream. (render source extension)))

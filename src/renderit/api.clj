@@ -1,5 +1,6 @@
 (ns renderit.api
-  (:require [compojure.core :as c]
+  (:require [clojure.java.io :as io]
+            [compojure.core :as c]
             [renderit.gist :as g]
             [renderit.plantuml :as p]
             [ring.util.response :as r])
@@ -11,7 +12,7 @@
 
 (defn image-response
   [file extension]
-  (-> (r/response (p/render-stream file extension))
+  (-> (r/response (io/input-stream (p/render file extension)))
       (r/content-type (mime-from-extension extension))))
 
 (c/defroutes routes
