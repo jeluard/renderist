@@ -2,6 +2,7 @@
 
 (defproject renderit "0.0.1"
   :dependencies [[org.clojure/clojure "1.4.0"]
+                 [org.clojure/core.memoize "0.5.2"]
                  [ring/ring-core "1.1.1"]
                  [ring-server "0.2.5"]
                  [compojure "1.1.1"]

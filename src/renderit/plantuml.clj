@@ -1,4 +1,5 @@
 (ns renderit.plantuml
+  (:require [clojure.core.memoize :as m])
   (:import [java.io ByteArrayInputStream ByteArrayOutputStream]
            [net.sourceforge.plantuml FileFormat FileFormatOption SourceStringReader]))
 
@@ -18,3 +19,5 @@
     (with-open [outputStream (ByteArrayOutputStream.)]
       (.generateImage reader outputStream (FileFormatOption. (type-from-extension extension)))
       (.toByteArray outputStream))))
+
+(def render-cached (m/memo-lu render 400))

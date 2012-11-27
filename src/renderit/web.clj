@@ -21,7 +21,7 @@
   [:#id] (h/set-attr :id filename)
   [:h2 :a] (h/content filename)
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id filename)))
-  [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render filecontent "png"))))
+  [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render-cached filecontent "png"))))
   [:pre.source] (h/content filecontent)
   [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/api/" id "/" filename ".png\" />")))
 

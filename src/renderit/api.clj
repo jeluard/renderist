@@ -12,7 +12,7 @@
 
 (defn image-response
   [file extension]
-  (-> (r/response (io/input-stream (p/render file extension)))
+  (-> (r/response (io/input-stream (p/render-cached file extension)))
       (r/content-type (mime-from-extension extension))))
 
 (c/defroutes routes
