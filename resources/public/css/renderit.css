@@ -62,9 +62,20 @@ pre#readme {
 pre.snippet {
   clear: both;
   padding-top: 30px;
-  background: white;
   text-align: center;
   border: none;
+  background: white;
+}
+
+/* Following could be replaced by :not(section:last-of-type) */
+section {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #666;
+}
+
+section:last-of-type {
+  margin-bottom: 15px;
+  border-bottom-style: none;
 }
 
 /* Display scrollbar in webkit/OSX Lion+ */
