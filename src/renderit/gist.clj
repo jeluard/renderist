@@ -1,5 +1,6 @@
 (ns renderit.gist
-  (:require [clojure.string :as str]
+  (:require [clojure.core.memoize :as m]
+            [clojure.string :as str]
             [tentacles.gists :as t]))
 ;;http://developer.github.com/v3/gists/
 ;;http://developer.github.com/v3/#rate-limiting
@@ -36,6 +37,8 @@
   (let [gist (t/specific-gist id)]
     (if (not= 404 (:status gist))
       gist nil)))
+
+(def get-gist-cached (m/memo-lu get-gist 400))
 
 (defn extract-file [gist name]
   ""

@@ -20,7 +20,7 @@
     (if-not (p/supported? extension)
       (-> (r/response (str "Unsupported extension " extension))
           (r/status 415))
-      (let [gist (g/get-gist id)]
+      (let [gist (g/get-gist-cached id)]
         (if (= (:status gist) 404)
           (r/not-found (format "Non existing gist %s" id))
           (let [candidates (g/matching-files(g/list-files gist) name)]

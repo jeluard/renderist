@@ -54,7 +54,7 @@
 (def page-404 (load-page "404.html"))
 
 (defn page-gist [id]
-  (if-let [gist (g/get-gist id)]
+  (if-let [gist (g/get-gist-cached id)]
     (blank (gist-snippet gist (g/extract-file gist description-file) (:files gist)))
     page-404))
 
