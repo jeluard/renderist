@@ -16,7 +16,7 @@
 (h/deftemplate blank "public/blank.html" [snippet]
   [:div#content] (h/content snippet))
 
-(h/defsnippet file-snippet "public/templates/diagram.html" [:section :> h/any-node] [id filename filecontent]
+(h/defsnippet file-snippet "public/diagram.html" [:section :> h/any-node] [id filename filecontent]
   [:#id] (h/set-attr :id filename)
   [:h2 :a] (h/content filename)
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id filename)))
@@ -29,7 +29,7 @@
 (defn valid? [filename]
   (not= filename description-file))
 
-(h/defsnippet gist-snippet "public/templates/diagram.html" [:#content :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
+(h/defsnippet gist-snippet "public/diagram.html" [:#content :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
   [:span (h/nth-child 1)] (h/do->
                             (h/set-attr :href (str "/author/" author))
                             (h/content author))
@@ -45,14 +45,16 @@
                            :when (valid? filename)]
                (h/content (file-snippet id filename filecontent))))
 
-(h/defsnippet index-snippet "public/index.html" [:body :> h/any-node] [])
+(defn html-resource-snippet [source selector]
+  (h/select (h/html-resource source) selector))
 
-(defn load-page [page]
-  (slurp (io/resource (str "public/" page)) :encoding "UTF-8"))
+(def snippet-index (html-resource-snippet "public/index.html" [:body :> h/any-node]))
+(def snippet-author (html-resource-snippet "public/author.html" [:body :> h/any-node]))
+(def snippet-404 (html-resource-snippet "public/404.html" [:body :> h/any-node]))
 
-(def page-index (blank (index-snippet)))
-(def page-author (load-page "author.html"))
-(def page-404 (load-page "404.html"))
+(def page-index (blank snippet-index))
+(def page-author (blank snippet-author))
+(def page-404 (blank snippet-404))
 
 (defn page-gist [id]
   (if-let [gist (g/get-gist-cached id)]
