@@ -1,5 +1,4 @@
 (ns renderit.web
-    (:use [ring.server.standalone])
     (:require [clj-time.format :as f]
               [clojure.java.io :as io]
               [compojure.core :as c]
@@ -8,7 +7,8 @@
               [net.cgrand.enlive-html :as h]
               [renderit.api :as a]
               [renderit.gist :as g]
-              [renderit.plantuml :as p])
+              [renderit.plantuml :as p]
+              [ring.server.standalone :as s])
     (:import java.util.Locale))
 
 (def formatter (f/with-locale (f/formatter "MMM dd, yyyy") Locale/US)) ;default to UTC time zone
@@ -71,4 +71,4 @@
 
 (defn -main []
   (System/setProperty "java.awt.headless" "true")
-  (serve all-routes {:open-browser? false}))
+  (s/serve all-routes {:open-browser? false}))
