@@ -8,8 +8,7 @@
               [net.cgrand.enlive-html :as h]
               [renderit.api :as a]
               [renderit.gist :as g]
-              [renderit.plantuml :as p]
-              [ring.util.codec :as codec])
+              [renderit.plantuml :as p])
     (:import java.util.Locale))
 
 (def formatter (f/with-locale (f/formatter "MMM dd, yyyy") Locale/US)) ;default to UTC time zone
@@ -21,9 +20,9 @@
   [:#id] (h/set-attr :id filename)
   [:h2 :a] (h/content filename)
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id filename)))
-  [:div.diagram :img] (h/set-attr :src (str "data:image/png;base64," (codec/base64-encode (p/render-cached filecontent "png"))))
+  [:div.diagram :img] (h/set-attr :src (str "/api/" id "/" (g/chop-extension filename) ".png"))
   [:pre.source] (h/content filecontent)
-  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/api/" id "/" filename ".png\" />")))
+  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/api/" id "/" (g/chop-extension filename) ".png\" />")))
 
 (def description-file "Diagrams.md")
 
@@ -46,10 +45,12 @@
                            :when (valid? filename)]
                (h/content (file-snippet id filename filecontent))))
 
+(h/defsnippet index-snippet "public/index.html" [:body :> h/any-node] [])
+
 (defn load-page [page]
   (slurp (io/resource (str "public/" page)) :encoding "UTF-8"))
 
-(def page-index (load-page "index.html"))
+(def page-index (blank (index-snippet)))
 (def page-author (load-page "author.html"))
 (def page-404 (load-page "404.html"))
 
