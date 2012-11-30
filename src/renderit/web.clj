@@ -1,6 +1,5 @@
 (ns renderit.web
     (:require [clj-time.format :as f]
-              [clojure.java.io :as io]
               [compojure.core :as c]
               [compojure.route :as r]
               [markdown :as md]
