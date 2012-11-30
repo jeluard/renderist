@@ -13,12 +13,29 @@ section h1 > a:before {
   text-shadow: 0 1px white;
 }
 
+h1 { 
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: -2px;
+  margin: .3em 0 .1em 0;
+}
+
+h2 {
+  margin-top: 1.5em;
+}
+
 aside {
   font-size: small;
   left: 780px;
   position: absolute;
   text-align: right;
   width: 180px;
+}
+
+p {
+  line-height: 1.5em;
+  width: 720px;
+  margin-bottom: 1em;
 }
 
 .content {
