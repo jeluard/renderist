@@ -67,6 +67,14 @@ pre.snippet {
   background: white;
 }
 
+.vignette {
+  max-height: 200px;
+}
+
+.block {
+  display: inline-block;
+}
+
 /* Following could be replaced by :not(section:last-of-type) */
 section {
   margin-bottom: 30px;
