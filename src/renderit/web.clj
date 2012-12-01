@@ -30,7 +30,7 @@
 
 (h/defsnippet gist-snippet "public/diagram.html" [:#content :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
   [:span (h/nth-child 1)] (h/do->
-                            (h/set-attr :href (str "/author/" author))
+                            (h/set-attr :href (str "https://gist.github.com/" author))
                             (h/content author))
   [:span (h/nth-child 2)] (h/do->
                             (h/set-attr :href (str "https://gist.github.com/" id))
@@ -48,11 +48,9 @@
   (h/select (h/html-resource source) selector))
 
 (def snippet-index (html-resource-snippet "public/index.html" [:body :> h/any-node]))
-(def snippet-author (html-resource-snippet "public/author.html" [:body :> h/any-node]))
 (def snippet-404 (html-resource-snippet "public/404.html" [:body :> h/any-node]))
 
 (def page-index (blank snippet-index))
-(def page-author (blank snippet-author))
 (def page-404 (blank snippet-404))
 
 (defn page-gist [id]
@@ -64,7 +62,6 @@
   (c/context "/api" [] a/routes)
   (c/GET "/" [] page-index)
   (c/GET "/:id" [id] (page-gist id))
-  (c/GET "/author/:id" [id] page-author)
   (r/resources "/")
   (r/not-found page-404))
 
