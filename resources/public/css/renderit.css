@@ -17,11 +17,11 @@ h1 {
   font-size: 64px;
   font-weight: 300;
   letter-spacing: -2px;
-  margin: .3em 0 .1em 0;
+  margin: .6em 0 .3em 0;
 }
 
 h2 {
-  margin-top: 1.5em;
+  margin-top: 1em;
 }
 
 aside {
@@ -90,6 +90,10 @@ pre.snippet {
 
 .block {
   display: inline-block;
+}
+
+#samples {
+  margin-top: .5em;
 }
 
 /* Following could be replaced by :not(section:last-of-type) */
