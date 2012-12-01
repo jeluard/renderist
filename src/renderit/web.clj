@@ -18,7 +18,7 @@
 (h/defsnippet file-snippet "public/diagram.html" [:section :> h/any-node] [id filename filecontent]
   [:#id] (h/set-attr :id filename)
   [:h2 :a] (h/content filename)
-  [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#file_" (g/file-name-to-file-id filename)))
+  [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#" (g/file-name-to-file-id filename)))
   [:div.diagram :img] (h/set-attr :src (str "/api/" id "/" (g/chop-extension filename) ".png"))
   [:pre.source] (h/content filecontent)
   [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/api/" id "/" (g/chop-extension filename) ".png\" />")))

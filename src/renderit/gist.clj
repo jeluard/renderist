@@ -11,7 +11,7 @@
 
 ;;Github uses lowercase/hyphen string as file id. HTML5 is less restrictive: http://www.w3.org/TR/html5/global-attributes.html#the-id-attribute
 (defn file-name-to-file-id [name]
-  (str name))
+  (str "file_" name))
 
 (defn camel-case-to-hyphen [string]
   (str/replace string #"[A-Z]" #(str \- (str/lower-case %))))
