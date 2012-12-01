@@ -1,14 +1,14 @@
 (ns renderit.web
-    (:require [clj-time.format :as f]
-              [compojure.core :as c]
-              [compojure.route :as r]
-              [markdown :as md]
-              [net.cgrand.enlive-html :as h]
-              [renderit.api :as a]
-              [renderit.gist :as g]
-              [renderit.plantuml :as p]
-              [ring.server.standalone :as s])
-    (:import java.util.Locale))
+  (:require [clj-time.format :as f]
+            [compojure.core :as c]
+            [compojure.route :as r]
+            [markdown :as md]
+            [net.cgrand.enlive-html :as h]
+            [renderit.api :as a]
+            [renderit.gist :as g]
+            [renderit.plantuml :as p]
+            [ring.server.standalone :as s])
+  (:import java.util.Locale))
 
 (def formatter (f/with-locale (f/formatter "MMM dd, yyyy") Locale/US)) ;default to UTC time zone
 
