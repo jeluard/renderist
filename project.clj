@@ -11,7 +11,8 @@
                  [markdown-clj "0.9.8"]
                  [clj-time "0.4.4"]
                  [tentacles "0.2.0-beta1"]
-                 [enlive "1.0.1"]]
+                 [enlive "1.0.1"]
+                 [ring-mock "0.1.3"]]
   :profiles {
     :dev {
       :dependencies [[clj-ns-browser "1.3.0"]]
