@@ -38,6 +38,12 @@ p {
   margin-bottom: 1em;
 }
 
+code {
+  background-color: whiteSmoke;
+  border: 1px solid #DDD;
+  color: #9DA0A4;
+}
+
 .content {
   margin-left: auto;
   margin-right: auto;
