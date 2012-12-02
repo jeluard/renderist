@@ -1,12 +1,12 @@
-(ns renderit.web
+(ns renderist.web
   (:require [clj-time.format :as f]
             [compojure.core :as c]
             [compojure.route :as r]
             [markdown :as md]
             [net.cgrand.enlive-html :as h]
-            [renderit.api :as a]
-            [renderit.gist :as g]
-            [renderit.plantuml :as p]
+            [renderist.api :as a]
+            [renderist.gist :as g]
+            [renderist.plantuml :as p]
             [ring.server.standalone :as s])
   (:import java.util.Locale))
 
@@ -20,7 +20,7 @@
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#" (g/file-name-to-file-id filename)))
   [:div.diagram :img] (h/set-attr :src (str id "/" filename-no-extension ".png"))
   [:pre.source] (h/content filecontent)
-  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/" id "/" filename-no-extension ".png\" />")))
+  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderist.herokuapp.com/" id "/" filename-no-extension ".png\" />")))
 
 (def description-file "Diagrams.md")
 

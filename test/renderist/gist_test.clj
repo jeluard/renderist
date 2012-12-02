@@ -1,5 +1,5 @@
-(ns renderit.gist-test
-  (:use clojure.test renderit.gist))
+(ns renderist.gist-test
+  (:use clojure.test renderist.gist))
 
 (deftest file-id
   (is (= "file_name.txt" (file-name-to-file-id "FILEName.txt")))

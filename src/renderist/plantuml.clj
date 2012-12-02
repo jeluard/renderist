@@ -1,4 +1,4 @@
-(ns renderit.plantuml
+(ns renderist.plantuml
   (:require [clojure.core.memoize :as m])
   (:import [java.io ByteArrayInputStream ByteArrayOutputStream]
            [net.sourceforge.plantuml FileFormat FileFormatOption SourceStringReader]))

@@ -1,6 +1,6 @@
 ;;heroku config:add  JVM_OPTS
 
-(defproject renderit "0.0.1"
+(defproject renderist "0.0.1"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/core.memoize "0.5.2"]
                  [ring/ring-core "1.1.1"]

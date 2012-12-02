@@ -1,8 +1,8 @@
-(ns renderit.api
+(ns renderist.api
   (:require [clojure.java.io :as io]
             [compojure.core :as c]
-            [renderit.gist :as g]
-            [renderit.plantuml :as p]
+            [renderist.gist :as g]
+            [renderist.plantuml :as p]
             [ring.util.response :as r])
   (:import java.util.Locale))
 

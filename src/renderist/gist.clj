@@ -1,4 +1,4 @@
-(ns renderit.gist
+(ns renderist.gist
   (:require [clojure.core.memoize :as m]
             [clojure.string :as str]
             [tentacles.gists :as t]))
