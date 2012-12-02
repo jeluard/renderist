@@ -15,13 +15,12 @@
 (h/deftemplate blank "public/blank.html" [snippet]
   [:div#content] (h/content snippet))
 
-(h/defsnippet file-snippet "public/diagram.html" [:section :> h/any-node] [id filename filecontent]
-  [:#id] (h/set-attr :id filename)
-  [:h2 :a] (h/content filename)
+(h/defsnippet file-snippet "public/diagram.html" [:section :> h/any-node] [id filename filename-no-extension filecontent]
+  [:h2 :a] (h/content filename-no-extension)
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#" (g/file-name-to-file-id filename)))
-  [:div.diagram :img] (h/set-attr :src (str id "/" (g/chop-extension filename) ".png"))
+  [:div.diagram :img] (h/set-attr :src (str id "/" filename-no-extension ".png"))
   [:pre.source] (h/content filecontent)
-  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/" id "/" (g/chop-extension filename) ".png\" />")))
+  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/" id "/" filename-no-extension ".png\" />")))
 
 (def description-file "Diagrams.md")
 
@@ -40,9 +39,12 @@
   [:pre#readme] (h/html-content (md/md-to-html-string readme))
   [:section] (h/clone-for [file files
                            :let [filename (:filename (val file))
+                                 filename-no-extension (g/chop-extension filename)
                                  filecontent (:content (val file))]
                            :when (valid? filename)]
-               (h/content (file-snippet id filename filecontent))))
+               (h/do->
+                 (h/set-attr :id filename-no-extension)
+                 (h/content (file-snippet id filename filename-no-extension filecontent)))))
 
 (defn html-resource-snippet [source selector]
   (h/select (h/html-resource source) selector))
