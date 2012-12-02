@@ -90,10 +90,18 @@ pre.snippet {
 
 .block {
   display: inline-block;
+  margin-top: 2em;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
 }
 
 #samples {
   margin-top: .5em;
+}
+
+.label {
+  text-align: center;
+  margin-bottom: 1em;
 }
 
 /* Following could be replaced by :not(section:last-of-type) */

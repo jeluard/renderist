@@ -26,27 +26,46 @@
 
         <h2>Usage</h2>
         <p>
-        Write your diagram, save it as a <a href="https://gist.github.com/gists">gist</a>, profit!
+          <ol>
+            <li>Write your diagram using one of supported syntax</li>
+            <li>Save it  as a <a href="https://gist.github.com/gists">gist</a></li>
+            <li>Directly access your image via a dedicated URL <code>http://renderit.herokuapp.com/GIST/FILE.png</code>
+            <br>
+            (where <code>GIST</code> is your gist id and <code>FILE</code> your gist file name. Both <b>svg</b> and <b>png</b> format are available.)</li>
+        </code>
+      </pre>
+
+          </ol>
         </p>
 
         <h2>Samples</h2>
         <div>
-          Thanks to the awesome <a href="http://plantuml.sourceforge.net/">PlantUML</a> library a number of syntaxes are supported. Here are some samples.
+          Various diagram types can be generated through different syntaxes. Here are some samples:
           <div id="samples">
             <div class="block">
-              <div><a href="http://www.graphviz.org/">Dot</a> syntax</div>
+              <div class="label"><a href="http://www.graphviz.org/">Dot</a> syntax</div>
               <a href="/3473417#dot"><img class="vignette" src="/3473417/dot.png"></a>
             </div>
             <div class="block">
-              <div><a href="http://plantuml.sourceforge.net/">PlantUML</a> syntax</div>
+              <div class="label"><a href="http://plantuml.sourceforge.net/">PlantUML</a> syntax</div>
               <a href="/3473417#sequence"><img class="vignette" src="/3473417/sequence.png"></a>
             </div>
             <div class="block">
-              <div><a href="http://ditaa.sourceforge.net/">ditaa</a> syntax</div>
+              <div class="label"><a href="http://ditaa.sourceforge.net/">Ditaa</a> syntax</div>
               <a href="/3473417#ditaa"><img class="vignette" src="/3473417/ditaa.png"></a>
             </div>
           </div>
         </div>
+
+        <h2>Credits</h2>
+        <p>
+          <b>renderit</b> is run by <a rel="author" href="https://github.com/jeluard">Julien Eluard</a>.
+        </p>
+        <p>
+        <a href="http://bl.ocks.org/">bl.ocks.org</a> for the inspiration and design
+        <br>
+        <a href="http://plantuml.sourceforge.net/">PlantUML</a> for the image rendering
+        </p>
 
         <script>
             var _gaq=[['_setAccount','UA-34514205-1'],['_trackPageview']];
