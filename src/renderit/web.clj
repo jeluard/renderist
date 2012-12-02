@@ -19,9 +19,9 @@
   [:#id] (h/set-attr :id filename)
   [:h2 :a] (h/content filename)
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#" (g/file-name-to-file-id filename)))
-  [:div.diagram :img] (h/set-attr :src (str "/api/" id "/" (g/chop-extension filename) ".png"))
+  [:div.diagram :img] (h/set-attr :src (str id "/" (g/chop-extension filename) ".png"))
   [:pre.source] (h/content filecontent)
-  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/api/" id "/" (g/chop-extension filename) ".png\" />")))
+  [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderit.herokuapp.com/" id "/" (g/chop-extension filename) ".png\" />")))
 
 (def description-file "Diagrams.md")
 
@@ -59,10 +59,10 @@
     page-404))
 
 (c/defroutes all-routes
-  (c/context "/api" [] a/routes)
   (c/GET "/" [] page-index)
+  (c/GET "/:id/:name.:extension" [id name extension :as {headers :headers}] (a/render id name extension headers))
   (c/GET "/:id" [id] (page-gist id))
-  (r/resources "/")
+  (r/resources "/resources")
   (r/not-found page-404))
 
 (defn -main []
