@@ -1,34 +1,19 @@
-https://devcenter.heroku.com/articles/dynos#isolation_and_security
-https://devcenter.heroku.com/articles/increasing-application-performance-with-http-cache-headers
-https://devcenter.heroku.com/articles/maximizing-availability
-https://devcenter.heroku.com/articles/http-routing
-https://devcenter.heroku.com/articles/slug-compiler
-https://devcenter.heroku.com/articles/application-offline
-https://devcenter.heroku.com/changelog
-https://devcenter.heroku.com/articles/request-timeout
-https://devcenter.heroku.com/articles/debugging-clojure
-https://devcenter.heroku.com/articles/custom-domains
-https://devcenter.heroku.com/articles/error-pages
-https://devcenter.heroku.com/articles/heroku-status
-https://devcenter.heroku.com/articles/releases
+![CI status](https://secure.travis-ci.org/jeluard/renderist.png)
 
+Renderist is a webapp that turns textual representation of diagrams stored as gist into hosted images.
 
-https://www.refheap.com/
-https://github.com/Raynes/refheap/wiki/Documentation:-API
+Find more details on http://renderist.herokuapp.com/.
 
+# Deployment on heroku
 
-http://schema.org/
-http://www.html5-css3.fr/html5/microformats-microdata-html5
-http://support.google.com/webmasters/bin/answer.py?hl=fr&answer=146897
-http://microformats.org/
-http://en.wikipedia.org/wiki/RDFa
+As graphviz is used to generate some of the diagrams you will need to have its binaries installed on your deployment box.
 
+On [heroku](http://heroku.com) this is done by executing following command:
 
-## Deployment on heroku
+```
+heroku config:add BUILDPACK_URL=https://github.com/jeluard/heroku-buildpack-graphviz/ -a renderist
+```
 
-heroku config:add BUILDPACK_URL=https://github.com/stigkj/heroku-buildpack-graphviz/ -a renderit
+More details on https://github.com/jeluard/heroku-buildpack-graphviz.
 
-### Splunk
-
-https://www.splunkstorm.com/pricing
-http://docs.splunk.com/Documentation/Storm/latest/User/HowtosenddatafromHeroku
+Released under [GPLv3 license](http://www.gnu.org/licenses/gpl.html).
