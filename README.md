@@ -1,10 +1,12 @@
 ![CI status](https://secure.travis-ci.org/jeluard/renderist.png)
 
-Renderist is a webapp that turns textual representation of diagrams stored as gist into hosted images.
+#Renderist 
+
+A webapp that turns textual representation of diagrams stored as gists into hosted images.
 
 Find more details on http://renderist.herokuapp.com/.
 
-# Deployment on heroku
+## Deployment on heroku
 
 As graphviz is used to generate some of the diagrams you will need to have its binaries installed on your deployment box.
 
