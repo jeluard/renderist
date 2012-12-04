@@ -13,7 +13,7 @@ section h1 > a:before {
   text-shadow: 0 1px white;
 }
 
-h1 { 
+h1 {
   font-size: 64px;
   font-weight: 300;
   letter-spacing: -2px;
@@ -44,6 +44,19 @@ code {
   color: #9DA0A4;
 }
 
+a {
+  color: #08C;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #005580;
+  text-decoration: underline;
+}
+
+li {
+  margin: 5px 0;
+}
 .content {
   margin-left: auto;
   margin-right: auto;
