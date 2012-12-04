@@ -15,6 +15,7 @@
 ;;
 (ns renderist.web
   (:require [clj-time.format :as f]
+            [clojure.java.io :as io]
             [compojure.core :as c]
             [compojure.route :as r]
             [markdown :as md]
@@ -69,6 +70,7 @@
 
 (def page-index (blank snippet-index))
 (def page-404 (blank snippet-404))
+(def robots (slurp (io/resource "public/robots.txt") :encoding "UTF-8"))
 
 (defn page-gist [id]
   (if-let [gist (g/get-gist-cached id)]
@@ -77,6 +79,7 @@
 
 (c/defroutes all-routes
   (c/GET "/" [] page-index)
+  (c/GET "/robots.txt" [] robots)
   (c/GET "/:id/:name.:extension" [id name extension :as {headers :headers}] (a/render id name extension headers))
   (c/GET "/:id" [id] (page-gist id))
   (r/resources "/resources")
