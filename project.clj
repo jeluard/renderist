@@ -25,6 +25,7 @@
                  [clj-time "0.4.4"]
                  [tentacles "0.2.0-beta1"]
                  [enlive "1.0.1"]
+                 [environ "0.2.1"]
                  [ring-mock "0.1.3"]]
   :license {:name "GPL - v 3.0"
             :url "http://www.gnu.org/licenses/gpl-3.0.en.html"

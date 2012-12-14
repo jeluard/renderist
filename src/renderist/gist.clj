@@ -16,6 +16,7 @@
 (ns renderist.gist
   (:require [clojure.core.memoize :as m]
             [clojure.string :as str]
+            [environ.core :as e]
             [tentacles.gists :as t]))
 ;;http://developer.github.com/v3/gists/
 ;;http://developer.github.com/v3/#rate-limiting
@@ -47,9 +48,12 @@
   ""
   (filter #(matches? % prefix) files))
 
+(defn get-credentials []
+  {:auth (str (e/env :github-user false) ":" (e/env :github-password false))})
+
 (defn get-gist [id]
   ""
-  (let [gist (t/specific-gist id)]
+  (let [gist (t/specific-gist id (get-credentials))]
     (if (not= 404 (:status gist))
       gist nil)))
 
