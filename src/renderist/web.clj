@@ -23,7 +23,8 @@
             [renderist.api :as a]
             [renderist.gist :as g]
             [renderist.plantuml :as p]
-            [ring.server.standalone :as s])
+            [ring.server.standalone :as s]
+            [ring.util.response :as u])
   (:import java.util.Locale))
 
 (def formatter (f/with-locale (f/formatter "MMM dd, yyyy") Locale/US)) ;default to UTC time zone
@@ -85,6 +86,7 @@
   (c/GET "/robots.txt" [] robots)
   (c/GET "/:id/:name.:extension" [id name extension :as {headers :headers}] (a/render id name extension headers))
   (c/GET "/:id" [id] (page-gist id))
+  (c/GET "/:id/" [id] (u/redirect (str "/" id)))
   (r/resources "/resources")
   (r/not-found page-404))
 
