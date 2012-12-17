@@ -43,13 +43,16 @@
 (defn valid? [filename]
   (not= filename description-file))
 
+(h/defsnippet author-snippet "public/diagram.html" [:span#author] [author]
+  [:a] (h/do->
+         (h/set-attr :href (str "https://gist.github.com/" author))
+         (h/content author)))
+
 (h/defsnippet gist-snippet "public/diagram.html" [:#content :> h/any-node] [{:keys [id description] date :created_at {author :login} :user} readme files]
-  [:span (h/nth-child 1)] (h/do->
-                            (h/set-attr :href (str "https://gist.github.com/" author))
-                            (h/content author))
-  [:span (h/nth-child 2)] (h/do->
-                            (h/set-attr :href (str "https://gist.github.com/" id))
-                            (h/content (str "#" id)))
+  [:span#author] (when author (h/content (author-snippet author)))
+  [:span#id :a] (h/do->
+                  (h/set-attr :href (str "https://gist.github.com/" id))
+                  (h/content (str "#" id)))
   [:h1] (h/content description)
   [:aside#date] (h/content (f/unparse formatter (f/parse date)))
   [:pre#readme] (h/html-content (md/md-to-html-string readme))
