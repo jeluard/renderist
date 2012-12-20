@@ -3,8 +3,8 @@ body {
   margin: 1em auto 4em auto;
 }
 
-section h1 > a:before {
-  content: '§';
+section h2 > a:before {
+  content: '#';
   position: absolute;
   padding: 0 .2em;
   margin-left: -1em;
