@@ -140,7 +140,7 @@ pre.snippet {
 /* Following could be replaced by :not(section:last-of-type) */
 section {
   margin-bottom: 30px;
-  border-bottom: 1px solid #666;
+  border-bottom: 1px solid #EEE;
 }
 
 section:last-of-type {
