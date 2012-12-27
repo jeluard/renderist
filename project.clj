@@ -16,6 +16,7 @@
 (defproject renderist "0.0.1"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/core.memoize "0.5.2"]
+                 [org.clojure/tools.logging "0.2.3"]
                  [ring/ring-core "1.1.1"]
                  [ring-server "0.2.5"]
                  [compojure "1.1.1"]
@@ -23,7 +24,7 @@
                  [net.sourceforge.plantuml/plantuml "7947"]
                  [markdown-clj "0.9.8"]
                  [clj-time "0.4.4"]
-                 [tentacles "0.2.0-beta1"]
+                 [tentacles "0.2.4"]
                  [enlive "1.0.1"]
                  [environ "0.2.1"]
                  [ring-mock "0.1.3"]]

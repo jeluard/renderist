@@ -17,7 +17,8 @@
   (:require [clojure.core.memoize :as m]
             [clojure.string :as str]
             [environ.core :as e]
-            [tentacles.gists :as t]))
+            [tentacles.gists :as t]
+            [clojure.tools.logging :as l]))
 ;;http://developer.github.com/v3/gists/
 ;;http://developer.github.com/v3/#rate-limiting
 ;;http://bl.ocks.org/1353700
@@ -54,8 +55,11 @@
 (defn get-gist [id]
   ""
   (let [gist (t/specific-gist id (get-credentials))]
-    (if (not= 404 (:status gist))
-      gist nil)))
+    (if-not (contains? gist :status)
+      gist
+      (do
+        (l/warn "Got status <" (:status gist)  "> while accessing gist <" id ">")
+        nil))))
 
 (def get-gist-cached (m/memo-lu get-gist 400))
 
