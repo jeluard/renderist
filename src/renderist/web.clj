@@ -85,6 +85,7 @@
   (c/GET "/" [] page-index)
   (c/GET "/robots.txt" [] robots)
   (c/GET "/:id/:name.:extension" [id name extension :as {headers :headers}] (a/render id name extension headers))
+  (c/GET "/favicon.ico" [] (u/not-found ""))
   (c/GET "/:id" [id] (page-gist id))
   (c/GET "/:id/" [id] (u/redirect (str "/" id)))
   (r/resources "/resources")
