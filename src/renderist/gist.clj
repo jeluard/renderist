@@ -19,12 +19,6 @@
             [environ.core :as e]
             [tentacles.gists :as t]
             [clojure.tools.logging :as l]))
-;;http://developer.github.com/v3/gists/
-;;http://developer.github.com/v3/#rate-limiting
-;;http://bl.ocks.org/1353700
-;;https://gist.github.com/748421
-;;https://github.com/dakrone/cheshire
-;;https://github.com/mmcgrana/clj-json
 
 ;;Github uses lowercase/hyphen string as file id. HTML5 is less restrictive: http://www.w3.org/TR/html5/global-attributes.html#the-id-attribute
 (defn file-name-to-file-id [name]
