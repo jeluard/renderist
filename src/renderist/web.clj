@@ -35,8 +35,8 @@
 (h/defsnippet file-snippet "public/diagram.html" [:section :> h/any-node] [id filename filename-no-extension filecontent]
   [:h2 :a] (h/content filename-no-extension)
   [:h2 :a] (h/set-attr :href (str "https://gist.github.com/" id "#" (g/file-name-to-file-id filename)))
-  [:div.diagram :img] (h/set-attr :src (str id "/" filename-no-extension ".png"))
-  [:pre.source] (h/content filecontent)
+  [:div.image :img] (h/set-attr :src (str id "/" filename-no-extension ".png"))
+  [:div.source :pre] (h/content filecontent)
   [:code] (h/content (str "<img alt=\"" filename "\" src=\"http://renderist.herokuapp.com/" id "/" filename-no-extension ".png\" />")))
 
 (def description-file "Diagrams.md")

@@ -79,27 +79,38 @@ pre#readme {
 
 .diagram {
   margin-top: 20px;
+  display: table;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 20px 0;
 }
 
 .image {
-  float: left;
-  max-height: 300px;
+  display: table-cell;
+  vertical-align: middle;
+  width: 500px;
+}
+
+.image img {
+  display: block;
   max-width: 500px;
+  margin: auto;
 }
 
 .source {
-  float: left;
-  margin-left: 50px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.source pre {
+  width: 500px;
   padding: 1em;
   background-color: #F5F2F0;
   border-radius: .2em;
   overflow-x: hidden;
   overflow-y: auto;
   overflow-style: scrollbar;
-  min-height: 200px;
   max-height: 400px;
-  min-width: 300px;
-  max-width: 400px;
 }
 
 pre.snippet {
@@ -108,6 +119,10 @@ pre.snippet {
   padding-top: 30px;
   border: none;
   background: white;
+}
+
+pre.snippet code {
+  text-align: center;
 }
 
 .vignette {
