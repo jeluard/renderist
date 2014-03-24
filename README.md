@@ -1,5 +1,7 @@
 ![CI status](https://secure.travis-ci.org/jeluard/renderist.png)
 
+*This project is not maintained anymore.*
+
 #Renderist
 
 A webapp that turns textual representation of diagrams stored as gists into hosted images.
